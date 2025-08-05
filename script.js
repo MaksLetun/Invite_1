@@ -5,7 +5,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeCelebration = document.getElementById('close-celebration');
     
     let runCount = 0;
-    const maxRunCount = 10;
+    const maxRunCount = 15;
+    const messages = [
+        "Не в этот раз",
+        "Прекрати, что ты делаешь?",
+        "Серьёзно, хватит!",
+        "Я не шучу!",
+        "Ты меня бесишь!",
+        "Последнее предупреждение!",
+        "Ну всё, ты пожалеешь!",
+        "Ладно, ты победила...",
+        "Нажми на 'Да' уже!"
+    ];
 
     yesBtn.addEventListener('click', function() {
         celebration.classList.remove('hidden');
@@ -17,33 +28,30 @@ document.addEventListener('DOMContentLoaded', function() {
         if (runCount >= maxRunCount) return;
         
         const btn = this;
-        const container = btn.parentElement;
-        const containerRect = container.getBoundingClientRect();
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
         const btnRect = btn.getBoundingClientRect();
         
-        const padding = 20;
-        const maxX = containerRect.width - btnRect.width - padding;
-        const maxY = containerRect.height - btnRect.height - padding;
+        const padding = 50;
+        const maxX = windowWidth - btnRect.width - padding;
+        const maxY = windowHeight - btnRect.height - padding;
         
-        let randomX, randomY;
-        do {
-            randomX = Math.floor(Math.random() * maxX) + padding/2;
-            randomY = Math.floor(Math.random() * maxY) + padding/2;
-        } while (
-            Math.abs(randomX - parseInt(btn.style.left || 0)) < btnRect.width || 
-            Math.abs(randomY - parseInt(btn.style.top || 0)) < btnRect.height
-        );
+        let randomX = Math.floor(Math.random() * maxX) + padding/2;
+        let randomY = Math.floor(Math.random() * maxY) + padding/2;
         
-        btn.style.position = 'absolute';
+        btn.style.position = 'fixed';
         btn.style.left = randomX + 'px';
         btn.style.top = randomY + 'px';
         
+        // Меняем текст при наведении
+        if (runCount < messages.length) {
+            btn.textContent = messages[runCount];
+        }
+        
         runCount++;
         
-        if (runCount === maxRunCount - 2) {
-            btn.textContent = "Я серьезно, не нажимай!";
-        } else if (runCount >= maxRunCount) {
-            btn.textContent = "Ладно, попробуй...";
+        if (runCount >= maxRunCount) {
+            btn.textContent = "Ок, нажми меня";
             btn.style.position = 'static';
             btn.style.left = 'auto';
             btn.style.top = 'auto';
@@ -53,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
     noBtn.addEventListener('click', function() {
         if (runCount >= maxRunCount) {
             sendResponse(false);
-            alert("Ну как хочешь... Может, передумаешь?");
+            alert("Ты всё равно не смогла отказаться по-настоящему!");
         }
     });
 
@@ -65,37 +73,33 @@ document.addEventListener('DOMContentLoaded', function() {
         const colors = ['#e75480', '#ffcc00', '#00ccff', '#ff00cc', '#00ff66'];
         const celebrationDiv = document.getElementById('celebration');
         
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 150; i++) {
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
             confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.top = '100vh';
+            confetti.style.top = -10 + 'px';
             confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.width = Math.random() * 10 + 5 + 'px';
-            confetti.style.height = Math.random() * 10 + 5 + 'px';
-            confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
-            confetti.style.animationDelay = Math.random() * 2 + 's';
+            confetti.style.width = Math.random() * 12 + 3 + 'px';
+            confetti.style.height = Math.random() * 12 + 3 + 'px';
+            confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+            confetti.style.animationDelay = Math.random() * 1 + 's';
             
             celebrationDiv.appendChild(confetti);
             
             setTimeout(() => {
                 confetti.remove();
-            }, 5000);
+            }, 6000);
         }
     }
 
     function sendResponse(answer) {
         const response = {
             answer: answer ? "Да" : "Нет",
-            timestamp: new Date().toISOString(),
-            userAgent: navigator.userAgent,
-            pageUrl: window.location.href
+            timestamp: new Date().toLocaleString(),
+            page: window.location.href
         };
         
-        console.log("Ответ получен:", response);
-        
-        const responses = JSON.parse(localStorage.getItem('dateResponses') || '[]');
-        responses.push(response);
-        localStorage.setItem('dateResponses', JSON.stringify(responses));
+        console.log("Ответ:", response);
+        localStorage.setItem('lastResponse', JSON.stringify(response));
     }
 });

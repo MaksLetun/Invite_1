@@ -8,14 +8,14 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-image: url('https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-image: url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
 .container {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
     padding: 30px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -38,9 +38,14 @@ h1 {
     margin-bottom: 30px;
 }
 
-.invitation-text span {
+.invitation-text p {
+    margin: 15px 0;
+}
+
+.highlight {
     font-weight: bold;
     color: #e75480;
+    font-size: 1.2em;
 }
 
 .buttons {
@@ -48,6 +53,7 @@ h1 {
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
+    margin-top: 30px;
 }
 
 .btn {
@@ -118,7 +124,6 @@ h1 {
     display: none;
 }
 
-/* Анимация для праздничного уведомления */
 @keyframes confetti {
     0% { transform: translateY(0) rotate(0); opacity: 1; }
     100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
@@ -132,7 +137,6 @@ h1 {
     animation: confetti 3s ease-in-out forwards;
 }
 
-/* Адаптивность */
 @media (max-width: 500px) {
     .buttons {
         flex-direction: column;
@@ -150,4 +154,12 @@ h1 {
     .invitation-text {
         font-size: 1rem;
     }
+}
+
+.no-btn {
+    transition: all 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+}
+
+.no-btn:hover {
+    background-color: #ffcccc;
 }
