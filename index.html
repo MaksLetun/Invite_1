@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на свидание</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Приглашение на свидание</h1>
+        <div class="invitation-text">
+            <p>Привет, <span id="name-placeholder">Почти Жена</span>!</p>
+            <p>Я хочу пригласить тебя на прекрасный ужин в ресторан <span id="restaurant-placeholder">Якитория</span>.</p>
+            <p>Будет вкусная еда, приятная атмосфера и, конечно же, твоя прекрасная улыбка!</p>
+            <p>Как насчет <span id="date-placeholder">05.08.2025</span> в <span id="time-placeholder">18:30</span>?</p>
+        </div>
+        
+        <div class="buttons">
+            <button id="yes-btn" class="btn yes-btn">Да, с удовольствием!</button>
+            <button id="no-btn" class="btn no-btn">Не в этот раз</button>
+        </div>
+    </div>
+
+    <div id="celebration" class="celebration hidden">
+        <div class="celebration-content">
+            <h2>Ура! 🎉</h2>
+            <p>Я так рад(а), что ты согласилась!</p>
+            <p>Жду нашей встречи с нетерпением!</p>
+            <button id="close-celebration" class="btn yes-btn">Закрыть</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
