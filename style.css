@@ -7,7 +7,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
     background-image: url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
     background-size: cover;
     background-position: center;
@@ -162,4 +161,17 @@ h1 {
 
 .no-btn:hover {
     background-color: #ffcccc;
+}
+
+.no-btn {
+    position: static;
+    margin: 10px;
+    min-width: 120px;
+    transition: transform 0.2s ease;
+    will-change: transform;
+    box-sizing: border-box;
+}
+
+.no-btn[style*="position: fixed"] {
+    transform: translateZ(0); /* Для аппаратного ускорения */
 }

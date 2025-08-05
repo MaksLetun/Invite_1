@@ -5,18 +5,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeCelebration = document.getElementById('close-celebration');
     
     let runCount = 0;
-    const maxRunCount = 15;
+    const maxRunCount = 12;
     const messages = [
         "Не в этот раз",
-        "Прекрати, что ты делаешь?",
-        "Серьёзно, хватит!",
-        "Я не шучу!",
-        "Ты меня бесишь!",
-        "Последнее предупреждение!",
-        "Ну всё, ты пожалеешь!",
-        "Ладно, ты победила...",
-        "Нажми на 'Да' уже!"
+        "Прекрати!",
+        "Не надо!",
+        "Отстань!",
+        "Хватит!",
+        "Я сержусь!",
+        "Ты надоела!",
+        "Последний раз!",
+        "Ладно, хватит...",
+        "Ты победила",
+        "Нажми 'Да'!"
     ];
+    const margin = 40; // Минимальный отступ от краев
 
     yesBtn.addEventListener('click', function() {
         celebration.classList.remove('hidden');
@@ -28,40 +31,35 @@ document.addEventListener('DOMContentLoaded', function() {
         if (runCount >= maxRunCount) return;
         
         const btn = this;
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
-        const btnRect = btn.getBoundingClientRect();
+        const btnWidth = btn.offsetWidth;
+        const btnHeight = btn.offsetHeight;
         
-        const padding = 50;
-        const maxX = windowWidth - btnRect.width - padding;
-        const maxY = windowHeight - btnRect.height - padding;
+        // Рассчитываем доступную область для перемещения
+        const maxX = document.documentElement.clientWidth - btnWidth - margin;
+        const maxY = document.documentElement.clientHeight - btnHeight - margin;
         
-        let randomX = Math.floor(Math.random() * maxX) + padding/2;
-        let randomY = Math.floor(Math.random() * maxY) + padding/2;
+        // Генерируем новые координаты с учетом отступов
+        const randomX = margin + Math.random() * (maxX - margin);
+        const randomY = margin + Math.random() * (maxY - margin);
         
         btn.style.position = 'fixed';
-        btn.style.left = randomX + 'px';
-        btn.style.top = randomY + 'px';
+        btn.style.left = `${randomX}px`;
+        btn.style.top = `${randomY}px`;
         
-        // Меняем текст при наведении
-        if (runCount < messages.length) {
-            btn.textContent = messages[runCount];
-        }
-        
+        // Меняем текст
+        btn.textContent = messages[Math.min(runCount, messages.length - 1)];
         runCount++;
         
         if (runCount >= maxRunCount) {
-            btn.textContent = "Ок, нажми меня";
+            btn.textContent = "Ок, нажми";
             btn.style.position = 'static';
-            btn.style.left = 'auto';
-            btn.style.top = 'auto';
         }
     });
 
     noBtn.addEventListener('click', function() {
         if (runCount >= maxRunCount) {
             sendResponse(false);
-            alert("Ты всё равно не смогла отказаться по-настоящему!");
+            alert("Ну и ладно! Буду ждать другого раза...");
         }
     });
 
@@ -73,33 +71,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const colors = ['#e75480', '#ffcc00', '#00ccff', '#ff00cc', '#00ff66'];
         const celebrationDiv = document.getElementById('celebration');
         
-        for (let i = 0; i < 150; i++) {
+        for (let i = 0; i < 120; i++) {
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
             confetti.style.left = Math.random() * 100 + 'vw';
             confetti.style.top = -10 + 'px';
             confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.width = Math.random() * 12 + 3 + 'px';
-            confetti.style.height = Math.random() * 12 + 3 + 'px';
+            confetti.style.width = Math.random() * 10 + 5 + 'px';
+            confetti.style.height = Math.random() * 10 + 5 + 'px';
             confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
-            confetti.style.animationDelay = Math.random() * 1 + 's';
-            
             celebrationDiv.appendChild(confetti);
             
-            setTimeout(() => {
-                confetti.remove();
-            }, 6000);
+            setTimeout(() => confetti.remove(), 5000);
         }
     }
 
     function sendResponse(answer) {
         const response = {
             answer: answer ? "Да" : "Нет",
-            timestamp: new Date().toLocaleString(),
-            page: window.location.href
+            timestamp: new Date().toLocaleString()
         };
-        
         console.log("Ответ:", response);
-        localStorage.setItem('lastResponse', JSON.stringify(response));
     }
 });
